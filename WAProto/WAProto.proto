@@ -916,6 +916,7 @@ message MediaEntry {
         optional string directPath = 3;
         optional bytes mediaKey = 4;
         optional int64 mediaKeyTimestamp = 5;
+        optional string objectId = 6;
     }
     
     message ProgressiveJpegDetails {
@@ -1012,11 +1013,11 @@ message Message {
     optional BCallMessage bcallMessage = 72;
     optional FutureProofMessage lottieStickerMessage = 74;
     optional EventMessage eventMessage = 75;
-    optional EncEventResponseMessage encEventResponseMessage = 76;
     optional CommentMessage commentMessage = 77;
     optional NewsletterAdminInviteMessage newsletterAdminInviteMessage = 78;
     optional ExtendedTextMessageWithParentKey extendedTextMessageWithParentKey = 79;
     optional PlaceholderMessage placeholderMessage = 80;
+    optional EncEventUpdateMessage encEventUpdateMessage = 81;
     message AppStateFatalExceptionNotification {
         repeated string collectionNames = 1;
         optional int64 timestamp = 2;
@@ -1273,7 +1274,7 @@ message Message {
         optional bytes encIv = 3;
     }
     
-    message EncEventResponseMessage {
+    message EncEventUpdateMessage {
         optional MessageKey eventCreationMessageKey = 1;
         optional bytes encPayload = 2;
         optional bytes encIv = 3;
@@ -1283,6 +1284,11 @@ message Message {
         optional MessageKey targetMessageKey = 1;
         optional bytes encPayload = 2;
         optional bytes encIv = 3;
+    }
+    
+    message EventEditMessage {
+        optional Message.EventMessage eventEditMessage = 1;
+        optional int64 editTimestampMs = 2;
     }
     
     message EventMessage {
@@ -1303,6 +1309,11 @@ message Message {
             GOING = 1;
             NOT_GOING = 2;
         }
+    }
+    
+    message EventUpdateMessage {
+        optional Message.EventResponseMessage response = 1;
+        optional Message.EventEditMessage edit = 2;
     }
     
     message ExtendedTextMessage {
